@@ -12,12 +12,19 @@ export async function run() {
       throw new Error("This action can only be run on Pull Requests");
     }
 
-    await octokit.rest.issues.addLabels({
+    const pull = await octokit.rest.pulls.get({ 
       owner: context.repo.owner,
       repo: context.repo.repo,
-      issue_number: pullRequest.number,
-      labels: ["Cool"],
+      pull_number: pullRequest.number
     });
+
+    await octokit.rest.pulls.createReviewComment({
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      pull_number: pullRequest.number,
+      body: `Hello ${pull.data.user?.name}`
+    })
+
   } catch (error) {
     setFailed((error as Error)?.message ?? "Unknown error");
   }
