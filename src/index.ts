@@ -22,8 +22,9 @@ export async function run() {
       ...context.repo,
       pull_number: pullRequest.number,
       body: `Hello ${pull.data.user?.id}`,
-      commit_id: '',
-      path: ''
+      commit_id: context.sha,
+      path: '',
+      position: 1
     })
 
   } catch (error) {
