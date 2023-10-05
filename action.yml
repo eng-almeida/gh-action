@@ -2,6 +2,11 @@ name: "DX Survey"
 description: "Amazing DX surveys"
 authors: "Survey"
 
+inputs:
+  gh-token:
+    description: 'The GitHub token for authentication.'
+    required: true
+    
 runs:
   using: "node20"
   main: "dist/index.js"
