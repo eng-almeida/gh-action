@@ -34,13 +34,8 @@ function run() {
                 repo: github_1.context.repo.repo,
                 pull_number: pullRequest.number
             });
-            const commits = yield octokit.rest.pulls.listCommits({
-                owner: github_1.context.repo.owner,
-                repo: github_1.context.repo.repo,
-                pull_number: pullRequest.number
-            });
-            console.log('#############', commits.data[0].sha);
-            yield octokit.rest.pulls.createReviewComment(Object.assign(Object.assign({}, github_1.context.repo), { pull_number: pullRequest.number, body: `Hello ${(_a = pull.data.user) === null || _a === void 0 ? void 0 : _a.id}`, commit_id: commits.data[0].sha, path: '', position: 0, in_reply_to: 0, line: 0, subject_type: '' }));
+            console.log('---->', JSON.stringify(pull.data.user || {}));
+            yield octokit.rest.issues.createComment(Object.assign(Object.assign({}, github_1.context.repo), { issue_number: pullRequest.number, body: `Hello ${(_a = pull.data.user) === null || _a === void 0 ? void 0 : _a.id}` }));
         }
         catch (error) {
             (0, core_1.setFailed)((_b = error === null || error === void 0 ? void 0 : error.message) !== null && _b !== void 0 ? _b : "Unknown error");

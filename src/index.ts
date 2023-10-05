@@ -18,24 +18,12 @@ export async function run() {
       pull_number: pullRequest.number
     });
 
-    const commits = await octokit.rest.pulls.listCommits({ 
-      owner: context.repo.owner,
-      repo: context.repo.repo,
-      pull_number: pullRequest.number
-    });
+    console.log('---->', JSON.stringify(pull.data.user || {}))
 
-    console.log('#############', commits.data[0].sha)
-
-    await octokit.rest.pulls.createReviewComment({
+    await octokit.rest.issues.createComment({
       ...context.repo,
-      pull_number: pullRequest.number,
+      issue_number: pullRequest.number,
       body: `Hello ${pull.data.user?.id}`,
-      commit_id: commits.data[0].sha,
-      path: '',
-      position: 0,
-      in_reply_to: 0,
-      line: 0,
-      subject_type: ''
     })
 
   } catch (error) {
