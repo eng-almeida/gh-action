@@ -24,12 +24,18 @@ export async function run() {
       pull_number: pullRequest.number
     });
 
+    console.log('#############', commits.data[0].sha)
+
     await octokit.rest.pulls.createReviewComment({
       ...context.repo,
       pull_number: pullRequest.number,
       body: `Hello ${pull.data.user?.id}`,
       commit_id: commits.data[0].sha,
       path: '',
+      position: 0,
+      in_reply_to: 0,
+      line: 0,
+      subject_type: ''
     })
 
   } catch (error) {
