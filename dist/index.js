@@ -20,7 +20,7 @@ exports.run = void 0;
 const core_1 = __nccwpck_require__(2186);
 const github_1 = __nccwpck_require__(5438);
 function run() {
-    var _a;
+    var _a, _b;
     return __awaiter(this, void 0, void 0, function* () {
         const token = (0, core_1.getInput)("gh-token");
         const octokit = (0, github_1.getOctokit)(token);
@@ -29,15 +29,20 @@ function run() {
             if (!pullRequest) {
                 throw new Error("This action can only be run on Pull Requests");
             }
-            yield octokit.rest.issues.addLabels({
+            const pull = yield octokit.rest.pulls.get({
                 owner: github_1.context.repo.owner,
                 repo: github_1.context.repo.repo,
-                issue_number: pullRequest.number,
-                labels: ["Cool"],
+                pull_number: pullRequest.number
+            });
+            yield octokit.rest.pulls.createReviewComment({
+                owner: github_1.context.repo.owner,
+                repo: github_1.context.repo.repo,
+                pull_number: pullRequest.number,
+                body: `Hello ${(_a = pull.data.user) === null || _a === void 0 ? void 0 : _a.name}`
             });
         }
         catch (error) {
-            (0, core_1.setFailed)((_a = error === null || error === void 0 ? void 0 : error.message) !== null && _a !== void 0 ? _a : "Unknown error");
+            (0, core_1.setFailed)((_b = error === null || error === void 0 ? void 0 : error.message) !== null && _b !== void 0 ? _b : "Unknown error");
         }
     });
 }
