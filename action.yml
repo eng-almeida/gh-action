@@ -1,0 +1,7 @@
+name: "DX Survey"
+description: "Amazing DX surveys"
+authors: "Survey"
+
+runs:
+  using: "node20"
+  main: "dist/index.js"
