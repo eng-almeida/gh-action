@@ -20,7 +20,7 @@ exports.run = void 0;
 const core_1 = __nccwpck_require__(2186);
 const github_1 = __nccwpck_require__(5438);
 function run() {
-    var _a, _b;
+    var _a, _b, _c;
     return __awaiter(this, void 0, void 0, function* () {
         const token = (0, core_1.getInput)("gh-token");
         const octokit = (0, github_1.getOctokit)(token);
@@ -29,20 +29,24 @@ function run() {
             if (!pullRequest) {
                 throw new Error("This action can only be run on Pull Requests");
             }
+            console.log(`##### Get pull data`);
             const pull = yield octokit.rest.pulls.get({
                 owner: github_1.context.repo.owner,
                 repo: github_1.context.repo.repo,
                 pull_number: pullRequest.number
             });
+            console.log(`Hello ${(_a = pull.data.user) === null || _a === void 0 ? void 0 : _a.name}`);
+            console.log(`##### createReviewComment`);
             yield octokit.rest.pulls.createReviewComment({
                 owner: github_1.context.repo.owner,
                 repo: github_1.context.repo.repo,
                 pull_number: pullRequest.number,
-                body: `Hello ${(_a = pull.data.user) === null || _a === void 0 ? void 0 : _a.name}`
+                body: `Hello ${(_b = pull.data.user) === null || _b === void 0 ? void 0 : _b.name}`
             });
+            console.log(`##### done`);
         }
         catch (error) {
-            (0, core_1.setFailed)((_b = error === null || error === void 0 ? void 0 : error.message) !== null && _b !== void 0 ? _b : "Unknown error");
+            (0, core_1.setFailed)((_c = error === null || error === void 0 ? void 0 : error.message) !== null && _c !== void 0 ? _c : "Unknown error");
         }
     });
 }

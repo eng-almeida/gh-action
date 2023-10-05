@@ -12,18 +12,25 @@ export async function run() {
       throw new Error("This action can only be run on Pull Requests");
     }
 
+    console.log(`##### Get pull data`)
+
     const pull = await octokit.rest.pulls.get({ 
       owner: context.repo.owner,
       repo: context.repo.repo,
       pull_number: pullRequest.number
     });
 
+    console.log(`Hello ${pull.data.user?.name}`)
+
+    console.log(`##### createReviewComment`)
     await octokit.rest.pulls.createReviewComment({
       owner: context.repo.owner,
       repo: context.repo.repo,
       pull_number: pullRequest.number,
       body: `Hello ${pull.data.user?.name}`
     })
+
+    console.log(`##### done`)
 
   } catch (error) {
     setFailed((error as Error)?.message ?? "Unknown error");
