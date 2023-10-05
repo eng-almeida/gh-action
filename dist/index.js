@@ -34,7 +34,7 @@ function run() {
                 repo: github_1.context.repo.repo,
                 pull_number: pullRequest.number
             });
-            yield octokit.rest.pulls.createReviewComment(Object.assign(Object.assign({}, github_1.context.repo), { pull_number: pullRequest.number, body: `Hello ${(_a = pull.data.user) === null || _a === void 0 ? void 0 : _a.id}`, commit_id: '', path: '' }));
+            yield octokit.rest.pulls.createReviewComment(Object.assign(Object.assign({}, github_1.context.repo), { pull_number: pullRequest.number, body: `Hello ${(_a = pull.data.user) === null || _a === void 0 ? void 0 : _a.id}`, commit_id: github_1.context.sha, path: '', position: 1 }));
         }
         catch (error) {
             (0, core_1.setFailed)((_b = error === null || error === void 0 ? void 0 : error.message) !== null && _b !== void 0 ? _b : "Unknown error");
